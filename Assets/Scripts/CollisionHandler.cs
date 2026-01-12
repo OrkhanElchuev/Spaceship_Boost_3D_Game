@@ -14,7 +14,6 @@ public class CollisionHandler : MonoBehaviour
     AudioSource audioSource;
 
     bool isControllable = true;
-
     int currentScene = 0;
 
     private void Start()
