@@ -1,8 +1,11 @@
+using System;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float sceneLoadDelay = 1f;
     int currentScene = 0;
 
     void Awake()
@@ -18,15 +21,32 @@ public class CollisionHandler : MonoBehaviour
                 print("Friend");
                 break;
             case "Finish":
-                LoadNextLevel();
+                StartLevelFinishSequence();
                 break;
             case "Fuel":
                 print("Fuel");
                 break;
             default:
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
+    }
+
+    private void DisableMovement()
+    {
+        GetComponent<Movement>().enabled = false;
+    }
+
+    private void StartLevelFinishSequence()
+    {
+        DisableMovement();
+        Invoke("LoadNextLevel", sceneLoadDelay);
+    }
+
+    private void StartCrashSequence()
+    {
+        DisableMovement();
+        Invoke("ReloadLevel", sceneLoadDelay);
     }
 
     void ReloadLevel()
