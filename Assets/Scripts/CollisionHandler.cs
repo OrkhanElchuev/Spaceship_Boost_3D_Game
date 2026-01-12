@@ -3,6 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    int currentScene = 0;
+
+    void Awake()
+    {
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+    }
+
     void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -11,7 +18,7 @@ public class CollisionHandler : MonoBehaviour
                 print("Friend");
                 break;
             case "Finish":
-                print("Finish!");
+                LoadNextLevel();
                 break;
             case "Fuel":
                 print("Fuel");
@@ -23,8 +30,19 @@ public class CollisionHandler : MonoBehaviour
     }
 
     void ReloadLevel()
-    {
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
+    { 
         SceneManager.LoadScene(currentScene);
+    }
+
+    void LoadNextLevel()
+    {
+        int nextScene = currentScene + 1;
+
+        if (nextScene == SceneManager.sceneCountInBuildSettings)
+        {
+            nextScene = 0;
+        }
+
+        SceneManager.LoadScene(nextScene);
     }
 }
