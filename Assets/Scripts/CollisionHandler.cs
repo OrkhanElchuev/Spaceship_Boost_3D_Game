@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework;
 using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,7 @@ public class CollisionHandler : MonoBehaviour
     AudioSource audioSource;
 
     bool isControllable = true;
+    bool isCollidable = true;
     int currentScene = 0;
 
     private void Start()
@@ -32,21 +34,25 @@ public class CollisionHandler : MonoBehaviour
     {
         if (!isControllable) return;
 
-        if (Keyboard.current.oKey.wasPressedThisFrame)
+        if (Keyboard.current.nKey.wasPressedThisFrame)
         {
             isControllable = false; // prevent double-trigger
             LoadNextLevel();
+        }
+        else if (Keyboard.current.cKey.wasPressedThisFrame)
+        {
+            isCollidable = !isCollidable;
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (!isControllable) { return; }
+        if (!isControllable || !isCollidable) { return; }
 
         switch (other.gameObject.tag)
         {
             case "Friendly":
-                print("Friend");
+                print("Friendly object");
                 break;
             case "Finish":
                 StartLevelFinishSequence();
