@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
@@ -20,6 +21,22 @@ public class CollisionHandler : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene().buildIndex;
         audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        RespondToDebugKeys();
+    }
+
+    private void RespondToDebugKeys()
+    {
+        if (!isControllable) return;
+
+        if (Keyboard.current.oKey.wasPressedThisFrame)
+        {
+            isControllable = false; // prevent double-trigger
+            LoadNextLevel();
+        }
     }
 
     private void OnCollisionEnter(Collision other)
