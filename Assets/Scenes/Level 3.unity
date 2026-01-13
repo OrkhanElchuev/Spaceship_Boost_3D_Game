@@ -1627,6 +1627,32 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1382785869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1984383404599280834, guid: 054b270821bc4854d9e257c60e532688, type: 3}
+  m_PrefabInstance: {fileID: 4509855260582431160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1382785874
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382785869}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5229038, y: 1.1540532, z: 0.54981226}
+  m_Center: {x: 0, y: 0.12122312, z: 0.00000038743016}
 --- !u!1 &1481122336
 GameObject:
   m_ObjectHideFlags: 0
@@ -3002,7 +3028,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4149136994823344158, guid: 054b270821bc4854d9e257c60e532688, type: 3}
+    - {fileID: 1842375796656855265, guid: 054b270821bc4854d9e257c60e532688, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2640937894689200394, guid: 054b270821bc4854d9e257c60e532688, type: 3}
     - {fileID: 7086835919732165838, guid: 054b270821bc4854d9e257c60e532688, type: 3}
@@ -3027,6 +3055,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 288520428914169911, guid: 054b270821bc4854d9e257c60e532688, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2106589526}
+    - targetCorrespondingSourceObject: {fileID: 1984383404599280834, guid: 054b270821bc4854d9e257c60e532688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1382785874}
   m_SourcePrefab: {fileID: 100100000, guid: 054b270821bc4854d9e257c60e532688, type: 3}
 --- !u!1001 &4714130849889800593
 PrefabInstance:
