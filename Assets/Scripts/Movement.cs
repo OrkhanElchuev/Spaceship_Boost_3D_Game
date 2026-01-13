@@ -15,13 +15,17 @@ public class Movement : MonoBehaviour
     Rigidbody rb;
     AudioSource audioSource;
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+    }
 
-        audioSource.playOnAwake = false;
+    private void Start()
+    {
+        audioSource.clip = engineThrustSound;
         audioSource.loop = true;
+        audioSource.playOnAwake = false;
     }
 
     private void OnEnable()
@@ -53,7 +57,7 @@ public class Movement : MonoBehaviour
         rb.AddRelativeForce(Vector3.up * thrustPower * Time.fixedDeltaTime);
         if (!audioSource.isPlaying)
         {
-            audioSource.PlayOneShot(engineThrustSound);
+            audioSource.Play();
         }
 
         if (!mainEngineParticles.isPlaying)
@@ -64,7 +68,10 @@ public class Movement : MonoBehaviour
 
     private void StopThrusting()
     {
-        audioSource.Stop();
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
         mainEngineParticles.Stop();
     }
 
@@ -113,13 +120,8 @@ public class Movement : MonoBehaviour
     }
 
     private void ApplyRotation(float rotationInThisFrame)
-    {
-        rb.freezeRotation = true;
-       
+    { 
         float rotationAmount = rotationInThisFrame * Time.fixedDeltaTime;
-        Quaternion deltaRotation = Quaternion.Euler(0f, 0f, rotationAmount);
-        rb.MoveRotation(rb.rotation * deltaRotation);
-        
-        rb.freezeRotation = false;
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, 0f, rotationAmount));
     }
 }
