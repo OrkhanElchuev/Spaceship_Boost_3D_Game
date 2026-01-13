@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7977cdb90f47c8b4d88efbc0df5169b4, type: 3}
       propertyPath: m_Name
-      value: Dropship_01_Piping_02_Red
+      value: ThinPole
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -70,15 +70,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7977cdb90f47c8b4d88efbc0df5169b4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5112543076369796134}
+      addedObject: {fileID: 7419323923797722329}
   m_SourcePrefab: {fileID: 100100000, guid: 7977cdb90f47c8b4d88efbc0df5169b4, type: 3}
 --- !u!1 &7272793309478983930 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7977cdb90f47c8b4d88efbc0df5169b4, type: 3}
   m_PrefabInstance: {fileID: 7507306148011713963}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &5112543076369796134
-CapsuleCollider:
+--- !u!65 &7419323923797722329
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -95,8 +95,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.27490616
-  m_Height: 1.32
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.12122312, z: 0.0000003874302}
+  serializedVersion: 3
+  m_Size: {x: 0.5229038, y: 1.1540532, z: 0.54981226}
+  m_Center: {x: 0, y: 0.12122312, z: 0.00000038743016}
