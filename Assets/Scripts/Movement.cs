@@ -7,7 +7,11 @@ public class Movement : MonoBehaviour
     [SerializeField] InputAction rotation;
     [SerializeField] float thrustPower = 100f;
     [SerializeField] float rotationPower = 100f;
+
+    [Header("Audio")]
     [SerializeField] AudioClip engineThrustSound;
+
+    [Header("Particles")]
     [SerializeField] ParticleSystem mainEngineParticles;
     [SerializeField] ParticleSystem rightThrustParticles;
     [SerializeField] ParticleSystem leftThrustParticles;
@@ -19,19 +23,22 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-    }
 
-    private void Start()
-    {
-        audioSource.clip = engineThrustSound;
-        audioSource.loop = true;
         audioSource.playOnAwake = false;
+        audioSource.loop = true;
+        audioSource.clip = engineThrustSound;
     }
 
     private void OnEnable()
     {
         thrust.Enable();
         rotation.Enable();
+    }
+
+    private void OnDisable()
+    {
+        thrust.Disable();
+        rotation.Disable();
     }
 
     private void FixedUpdate()

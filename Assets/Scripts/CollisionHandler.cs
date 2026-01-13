@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -5,21 +6,29 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] float sceneLoadDelay = 1f;
+
+    [Header("Audio")]
     [SerializeField] AudioClip crashSound;
     [SerializeField] AudioClip winSound;
+
+    [Header("Particles")]
     [SerializeField] ParticleSystem winParticles;
     [SerializeField] ParticleSystem crashParticles;
 
     AudioSource audioSource;
+    Movement movement;
+    Coroutine sceneCoroutine;
+
 
     bool isControllable = true;
     bool isCollidable = true;
     int currentScene = 0;
 
-    private void Start()
+    private void Awake()
     {
         currentScene = SceneManager.GetActiveScene().buildIndex;
         audioSource = GetComponent<AudioSource>();
+        movement = GetComponent<Movement>();
     }
 
     private void Update()
@@ -49,8 +58,7 @@ public class CollisionHandler : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Friendly":
-                print("Friendly object");
-                break;
+            break;
             case "Finish":
                 StartLevelFinishSequence();
                 break;
@@ -68,7 +76,10 @@ public class CollisionHandler : MonoBehaviour
         PlaySound(winSound);
         DisableMovement();
         winParticles.Play();
-        Invoke("LoadNextLevel", sceneLoadDelay);
+        if (sceneCoroutine == null)
+        {
+            sceneCoroutine = StartCoroutine(LoadNextLevelAfterDelay());
+        }
     }
 
     private void StartCrashSequence()
@@ -76,12 +87,15 @@ public class CollisionHandler : MonoBehaviour
         PlaySound(crashSound);
         DisableMovement();
         crashParticles.Play();
-        Invoke("ReloadLevel", sceneLoadDelay);
+        if (sceneCoroutine == null)
+        {
+            sceneCoroutine = StartCoroutine(ReloadLevelAfterDelay());
+        }
     }
 
     private void DisableMovement()
     {
-        GetComponent<Movement>().enabled = false;
+        movement.enabled = false;
         isControllable = false;
     }
 
@@ -106,5 +120,17 @@ public class CollisionHandler : MonoBehaviour
         }
 
         SceneManager.LoadScene(nextScene);
+    }
+
+    IEnumerator LoadNextLevelAfterDelay()
+    {
+        yield return new WaitForSeconds(sceneLoadDelay);
+        LoadNextLevel();
+    }
+
+    IEnumerator ReloadLevelAfterDelay()
+    {
+        yield return new WaitForSeconds(sceneLoadDelay);
+        ReloadLevel();
     }
 }
