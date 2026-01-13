@@ -1,6 +1,3 @@
-using System;
-using NUnit.Framework;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;

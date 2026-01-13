@@ -540,6 +540,7 @@ GameObject:
   - component: {fileID: 7226457461980799497}
   - component: {fileID: 6337665906825592266}
   - component: {fileID: 9022241111486612374}
+  - component: {fileID: 5511220899115874138}
   m_Layer: 0
   m_Name: 'Player '
   m_TagString: Untagged
@@ -663,7 +664,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!65 &7226457461980799497
@@ -801,6 +802,18 @@ MonoBehaviour:
   winSound: {fileID: 8300000, guid: 6e29002888063254986d79d2e3df00ef, type: 3}
   winParticles: {fileID: 5922198753653512253}
   crashParticles: {fileID: 5849039178399978661}
+--- !u!114 &5511220899115874138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916961650820012734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2973e5dfb5e98449924d93fc87555fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuitGame
 --- !u!1 &4611683937698600514
 GameObject:
   m_ObjectHideFlags: 0
