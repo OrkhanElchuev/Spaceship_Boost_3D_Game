@@ -24,7 +24,8 @@ The game prototype features 3 Levels and can be expanded with multiple features.
 
 ## Tools used while developing this project
 - Unity.
-- Visual Studio Code. Coding in C# Programming Language.
+- Visual Studio Code.
+-  Coding in C# Programming Language.
 - GitBash.
 - Audacity
   
