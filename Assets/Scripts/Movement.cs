@@ -1,19 +1,37 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Controls player movement using the new Input System:
+/// - Thrust applies an upward relative force
+/// - Rotation rotates the rigidbody around Z
+/// Also manages engine audio and particle effects for thrust/rotation.
+/// </summary>
+
 public class Movement : MonoBehaviour
 {
+    [Header("Input Actions")]
+    [Tooltip("Input Action used for thrust.")]
     [SerializeField] InputAction thrust;
+    [Tooltip("Input Action used for rotation. Negative=right, Positive=left.")]
     [SerializeField] InputAction rotation;
+
+    [Header("Movement")]
+    [Tooltip("Force applied when thrusting.")]
     [SerializeField] float thrustPower = 100f;
+    [Tooltip("Rotation power (degrees per second-ish, scaled by FixedDeltaTime).")]
     [SerializeField] float rotationPower = 100f;
 
     [Header("Audio")]
+    [Tooltip("Looping engine sound played while thrust is held.")]
     [SerializeField] AudioClip engineThrustSound;
 
     [Header("Particles")]
+    [Tooltip("Main engine particles played while thrusting.")]
     [SerializeField] ParticleSystem mainEngineParticles;
+    [Tooltip("Particles on the right thruster (used when rotating left).")]
     [SerializeField] ParticleSystem rightThrustParticles;
+    [Tooltip("Particles on the left thruster (used when rotating right).")]
     [SerializeField] ParticleSystem leftThrustParticles;
 
     Rigidbody rb;
@@ -24,9 +42,13 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
 
-        audioSource.playOnAwake = false;
-        audioSource.loop = true;
-        audioSource.clip = engineThrustSound;
+        // Configure engine audio once.
+        if (audioSource != null)
+        {
+            audioSource.playOnAwake = false;
+            audioSource.loop = true;
+            audioSource.clip = engineThrustSound;
+        }
     }
 
     private void OnEnable()
@@ -43,11 +65,11 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Thrusting();
-        Rotating();
+        HandleThrust();
+        HandleRotation();
     }
 
-    private void Thrusting()
+    private void HandleThrust()
     {
         if (thrust.IsPressed())
         {
@@ -61,13 +83,17 @@ public class Movement : MonoBehaviour
 
     private void StartThrusting()
     {
+        // Apply upward relative force each physics step.
         rb.AddRelativeForce(Vector3.up * thrustPower * Time.fixedDeltaTime);
-        if (!audioSource.isPlaying)
+
+        // Start looping engine audio.
+        if (audioSource != null && !audioSource.isPlaying && audioSource.clip != null)
         {
             audioSource.Play();
         }
 
-        if (!mainEngineParticles.isPlaying)
+        // Start engine particles.
+        if (mainEngineParticles != null && !mainEngineParticles.isPlaying)
         {
             mainEngineParticles.Play();
         }
@@ -75,14 +101,20 @@ public class Movement : MonoBehaviour
 
     private void StopThrusting()
     {
-        if (audioSource.isPlaying)
+        // Stop looping engine audio.
+        if (audioSource != null && audioSource.isPlaying)
         {
             audioSource.Stop();
         }
-        mainEngineParticles.Stop();
+
+        // Stop main engine partciles.
+        if (mainEngineParticles != null && mainEngineParticles.isPlaying)
+        {
+            mainEngineParticles.Stop(); 
+        }
     }
 
-    private void Rotating()
+    private void HandleRotation()
     {
         float rotationInput = rotation.ReadValue<float>();
         
@@ -96,38 +128,52 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            StopRotating();
+            StopRotatingPartciles();
         }
     }
 
-    private void StopRotating()
+    private void StopRotatingPartciles()
     {
-        rightThrustParticles.Stop();
-        leftThrustParticles.Stop();
+        if (rightThrustParticles != null && rightThrustParticles.isPlaying)
+            rightThrustParticles.Stop();
+
+        if (leftThrustParticles != null && leftThrustParticles.isPlaying)
+            leftThrustParticles.Stop();
     }
 
     private void RotateLeft()
     {
         ApplyRotation(-rotationPower);
-        if (!leftThrustParticles.isPlaying)
+
+        if (leftThrustParticles != null && !leftThrustParticles.isPlaying)
+        {
+            leftThrustParticles.Play();
+        }
+
+        if (rightThrustParticles != null && rightThrustParticles.isPlaying)
         {
             rightThrustParticles.Stop();
-            leftThrustParticles.Play();
         }
     }
 
     private void RotateRight()
     {
         ApplyRotation(rotationPower);
-        if (!rightThrustParticles.isPlaying)
+
+        if (rightThrustParticles != null && !rightThrustParticles.isPlaying)
+        {
+            rightThrustParticles.Play();
+        }
+
+        if (leftThrustParticles != null && leftThrustParticles.isPlaying)
         {
             leftThrustParticles.Stop();
-            rightThrustParticles.Play();
         }
     }
 
     private void ApplyRotation(float rotationInThisFrame)
     { 
+        // Rigidbody rotation through physics for consistent behaviour.
         float rotationAmount = rotationInThisFrame * Time.fixedDeltaTime;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, 0f, rotationAmount));
     }
