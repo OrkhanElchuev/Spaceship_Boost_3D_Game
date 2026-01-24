@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Quits the application when Escape is pressed.
+/// </summary>
+
 public class QuitGame : MonoBehaviour
 {
     void Update()
@@ -8,7 +12,7 @@ public class QuitGame : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             Application.Quit();
-            print("Exit the game");
+            Debug.Log("Exit the game");
         }
     }
 }
